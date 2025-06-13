@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 public class Blueprint
 {
-    public static List<Blueprint> Repository { get; private set; }
+    public static List<Blueprint> Repository { get; private set; } = new();
 
     // ID for the map, which ties to name and functionality
     public string Id { get; private set; }
@@ -41,13 +41,20 @@ public class Blueprint
         if (layoutArray == null || layoutArray.Length == 0)
         {
             layoutArray = new string[] {
-            "1A 1A 1A 1A 1A 1A 1A 1A 1A 1A",
-            "1A 0A 0A 0A 0A 0A 0A 0A 0A 1A",
-            "-A -A -A 0A 0A 0A 0A 0A 0A 1A",
-            "1A 0A -A 0A 0A 0A 0A 0A 0A 1A",
-            "1A 0A -A -A -A -A -A -A 0A 1A",
-            "1A 0A 0A 0A 0A 0A 0A -A 0A 1A",
-            "1A 1A 1A 1A 1A 0A 1A -A 1A 1A" };
+            "1W 1W 1W 1W 1~ 1~ 1~ 1W 1W 1W",
+            "1W 0G 0G 0G 1~ 1~ 1~ 0G 0G 1W",
+            "-R -R -R 0G 1~ 0G 0G 0G 0G 1W",
+            "1W 0G -R 0G 1~ 0G 0G -R 0G 1W",
+            "1W 0G -R 0G 0G 0G 0G -R 0G 1W",
+            "1W 0G -R -R -R 0R -R -R 0G 1G",
+            "1W 0G -R 0G 0G 0G 0G -R 0G 1W",
+            "1W 0G -R 0G 1~ 1~ 0G -R 0G 1W",
+            "1W 0G -R 0G 1~ 1~ 0G -R 0G 1W",
+            "1W 0G -R 0G 0G 0G 0G -R 0G 1W",
+            "1W 0G -R -R -R -R -R -R 0G 1W",
+            "1W 0G 0G 0G 0G 0G 0G -R 0G 1W",
+            "1W 0G 0G 0G 0G 0G 0G -R 0G 1W",
+            "1W 1W 1W 1~ 1~ 1~ 1~ -R 1W 1W", };
         }
         else
         {
