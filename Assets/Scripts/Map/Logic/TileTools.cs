@@ -1,9 +1,22 @@
-﻿public static class TileTools
+﻿using System.Collections.Generic;
+
+public static class TileTools
 {
+    private static readonly Dictionary<char, TileTheme> ThemeDictionary = new()
+    {
+       { 'G', TileTheme.Grass },
+       { 'R', TileTheme.Road },
+       { 'W', TileTheme.Wall },
+       { 'D', TileTheme.Dirt },
+       { '~', TileTheme.Water },
+       { 'T', TileTheme.Trail },
+       { 'S', TileTheme.Stone }
+    };
+
     // Convert string to tile enum
     public static TileType GetTileType(string input)
     {
-        if (input.Length > 0)
+        if (input.Length < 1)
         {
             Report.WriteError("Tile type was not the correct length: " + input);
             return TileType.Walkable;
@@ -32,20 +45,18 @@
 
     public static TileTheme GetTileTheme(string input)
     {
-        if (input.Length > 1)
+        if (input.Length < 2)
         {
             Report.WriteError("Tile theme was not the correct length: " + input);
             return TileTheme.Grass;
         }
         else
         {
-            char type = input[1];
+            char themeKey = input[1];
 
-            if (char.IsDigit(type))
+            if (ThemeDictionary.ContainsKey(themeKey))
             {
-                // Convert '0' -> 0, '1' -> 1, etc.
-                int value = type - '0';
-                return (TileTheme)value;
+                return ThemeDictionary[themeKey];
             }
             else
             {
