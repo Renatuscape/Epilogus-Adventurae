@@ -10,7 +10,8 @@ public static class TileTools
        { 'D', TileTheme.Dirt },
        { '~', TileTheme.Water },
        { 'T', TileTheme.Trail },
-       { 'S', TileTheme.Stone }
+       { 'S', TileTheme.Stone },
+       { 'B', TileTheme.Building }
     };
 
     // Convert string to tile enum
@@ -114,4 +115,5 @@ public enum TileTheme
     Water,
     Trail,
     Stone,
+    Building
 }
