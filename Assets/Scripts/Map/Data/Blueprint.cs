@@ -1,10 +1,11 @@
 // Holds the recipe for a default map. Layout should be loaded from json
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
+
+//[Serializable]
 public class Blueprint
 {
-    public static List<Blueprint> Repository { get; private set; } = new();
 
     // ID for the map, which ties to name and functionality
     public string Id { get; private set; }
@@ -34,45 +35,70 @@ public class Blueprint
     //    changeDict = changes.ToDictionary(c => c.position, c => c.tile);
     //}
 
-    public Blueprint(string id, string[] layoutArray)
+    public Blueprint(string id, BlueprintType type, string[] layoutArray)
     {
         Id = id;
 
-        if (layoutArray == null || layoutArray.Length == 0)
+        if (type == BlueprintType.District)
         {
-            layoutArray = new string[] {
-            "1W 1W 1W 1W 1~ 1~ 1~ 1W 1W 1W",
-            "1W 0G 0G 0G 1~ 1~ 1~ 0G 0G 1W",
-            "-R -R -R 0G 1~ 0G 0G 0G 0G 1W",
-            "1W 0G -R 0G 1~ 0G 0G -R 0G 1W",
-            "1W 0G -R 0G 0G 0G 0G -R 0G 1W",
-            "1W 0G -R -R -R 0R -R -R 0G 1G",
-            "1W 0G -R 0G 0G 0G 0G -R 0G 1W",
-            "1W 0G -R 0G 1~ 1~ 0G -R 0G 1W",
-            "1W 0G -R 0G 1~ 1~ 0G -R 0G 1W",
-            "1W 0G -R 0G 0G 0G 0G -R 0G 1W",
-            "1W 0G -R -R -R -R -R -R 0G 1W",
-            "1W 0G 0G 0G 0G 0G 0G -R 0G 1W",
-            "1W 0G 0G 0G 0G 0G 0G -R 0G 1W",
-            "1W 1W 1W 1~ 1~ 1~ 1~ -R 1W 1W", };
+            if (layoutArray == null || layoutArray.Length == 0)
+            {
+                layoutArray = new string[] {
+                "1W 1W 1W 1W 1~ 1~ 1~ 1W 1W 1W",
+                "1W 0G 0G 0G 1~ 1~ 1~ 0G 0G 1W",
+                "-R -R -R 0G 1~ 0G 0G 0G 0G 1W",
+                "1W 0G -R 0G 1~ 0G 0G -R 0G 1W",
+                "1W 0G -R 0G 0G 0G 0G -R 0G 1W",
+                "1W 0G -R -R -R 0R -R -R 0G 1G",
+                "1W 0G -R 0G 0G 0G 0G -R 0G 1W",
+                "1W 0G -R 0G 1~ 1~ 0G -R 0G 1W",
+                "1W 0G -R 0G 1~ 1~ 0G -R 0G 1W",
+                "1W 0G -R 0G 0G 0G 0G -R 0G 1W",
+                "1W 0G -R -R -R -R -R -R 0G 1W",
+                "1W 0G 0G 0G 0G 0G 0G -R 0G 1W",
+                "1W 0G 0G 0G 0G 0G 0G -R 0G 1W",
+                "1W 1W 1W 1~ 1~ 1~ 1~ -R 1W 1W", };
+            }
+            else
+            {
+                this.layoutArray = layoutArray;
+            }
+
+            Layout = TileTools.GenerateTileLayout(layoutArray);
+
+            Repository.Districts.Add(this);
         }
-        else
+        else if (type == BlueprintType.Building)
         {
-            this.layoutArray = layoutArray;
+            if (layoutArray == null || layoutArray.Length == 0)
+            {
+                layoutArray = new string[] {
+                "2B 2B",
+                "2B 2B",
+                "1B 1B",
+                "1B 1B",
+                "0B 0B",
+                "0B 0B", };
+            }
+            else
+            {
+                this.layoutArray = layoutArray;
+            }
+
+            Layout = TileTools.GenerateTileLayout(layoutArray);
+
+            Repository.Districts.Add(this);
         }
-
-        Layout = TileTools.GenerateTileLayout(layoutArray);
-
-        Repository.Add(this);
     }
 
     public TileData GetTileData(int x, int y)
     {
         return Layout[x, y];
     }
+}
 
-    public static Blueprint FindById(string id)
-    {
-        return Repository.FirstOrDefault(x => x.Id == id);
-    }
+public enum BlueprintType
+{
+    District,
+    Building
 }
