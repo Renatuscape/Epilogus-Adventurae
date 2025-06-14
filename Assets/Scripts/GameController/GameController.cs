@@ -8,16 +8,19 @@ public class GameController : MonoBehaviour
     public Character npc;
     public Character npc2;
     public (int x, int y) poi = (7, 5); // Set your target position
-    public float npcTimer = 1;
-    public float npcTimer2 = 2;
     public MapBuilder mapBuilder;
 
     void Start()
     {
-        MapController.blueprint = new Blueprint("", null);
+        MapController.blueprint = new Blueprint("", BlueprintType.District, null);
         npc = new Character();
+        npc.behaviours.Add(new GoToPoi());
+        npc.behaviours[0].StartBehaviourt(npc);
+
         npc2 = new Character();
+        npc2.behaviours.Add(new GoToPoi());
         npc2.coor = (5, 2);
+        npc2.behaviours[0].StartBehaviourt(npc);
 
         PrintMapWithPlayer();
         mapBuilder.BuildMap();
@@ -50,25 +53,7 @@ public class GameController : MonoBehaviour
             Move(newX, newY);
         }
 
-        npcTimer -= Time.deltaTime;
-
-        if (npcTimer < 0)
-        {
-            npcTimer = Random.Range(0.3f, 0.5f);
-
-            npc.IncreaseIndex(ref poi, player);
-            PrintMapWithPlayer();
-        }
-
-        npcTimer2 -= Time.deltaTime;
-
-        if (npcTimer2 < 0)
-        {
-            npcTimer2 = Random.Range(0.5f, 2f);
-
-            npc2.IncreaseIndex(ref poi, player);
-            PrintMapWithPlayer();
-        }
+        PrintMapWithPlayer();
     }
 
     private void Move(int newX, int newY)
