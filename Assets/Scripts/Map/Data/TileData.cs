@@ -1,4 +1,7 @@
-﻿public class TileData
+﻿using System;
+
+//[Serializable]
+public class TileData
 {
     public TileType Type { get; private set; }
     public TileTheme Theme { get; private set; }
