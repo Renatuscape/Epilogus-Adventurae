@@ -14,7 +14,7 @@ public class Board : MonoBehaviour
 
     public Board(string blueprintId)
     {
-        Blueprint = Blueprint.FindById(blueprintId);
+        Blueprint = Repository.FindBlueprintById(blueprintId, BlueprintType.District);
     }
 
     // void LoadFromBlueprint(string id)
